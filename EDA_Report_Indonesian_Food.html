@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDA Report - Indonesian Food Dataset</title>
+  <style>
+    :root {
+      --bg: #f7f4ed;
+      --panel: #fffdfa;
+      --ink: #1f2933;
+      --muted: #52606d;
+      --accent: #a63d40;
+      --accent-2: #f18f01;
+      --line: #e6dfd1;
+    }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(180deg, #faf7f0 0%, #f3eee3 100%);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+    header {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(42, 53, 71, 0.08);
+    }
+    h1, h2 {
+      margin-top: 0;
+      line-height: 1.2;
+    }
+    h1 {
+      font-size: 2.4rem;
+      color: var(--accent);
+    }
+    h2 {
+      margin-top: 32px;
+      color: #7c2d12;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 24px 28px;
+      margin-top: 22px;
+      box-shadow: 0 10px 24px rgba(42, 53, 71, 0.05);
+    }
+    .note {
+      border-left: 4px solid var(--accent-2);
+      padding-left: 16px;
+      color: var(--muted);
+    }
+    ul {
+      padding-left: 20px;
+    }
+    code {
+      background: #f2ece2;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      padding: 16px;
+      background: #fffaf1;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>EDA Report: Indonesian Food Image Dataset</h1>
+      <p>This report documents the exploratory analysis design for the image dataset used in Forum 04. It is aligned with the training notebook and focuses on dataset structure, label balance, image geometry, and qualitative sample inspection.</p>
+      <p class="note">This workspace currently does not contain Kaggle credentials or local image files, so this HTML report is provided as a structured report scaffold. Execute <code>EDA_Report_Indonesian_Food.ipynb</code> after configuring Kaggle access to populate the analysis with real charts and dataset statistics.</p>
+    </header>
+
+    <section>
+      <h2>Dataset Scope</h2>
+      <p>The project uses the Kaggle dataset <code>rizkyyk/dataset-food-classification</code>. The classification task covers 13 Indonesian food categories and compares a custom CNN against a VGG16 transfer learning model.</p>
+      <div class="grid">
+        <div class="card"><strong>Task</strong><br>Multiclass image classification</div>
+        <div class="card"><strong>Input</strong><br>RGB food images</div>
+        <div class="card"><strong>Output</strong><br>Food category label</div>
+        <div class="card"><strong>Target Size</strong><br>224 x 224 x 3</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>EDA Objectives</h2>
+      <ul>
+        <li>Measure the number of images per split and per class.</li>
+        <li>Inspect whether the dataset is balanced across the 13 food categories.</li>
+        <li>Understand image width, height, aspect ratio, and file size variation.</li>
+        <li>Verify sample images visually to detect mislabeling or obvious noise.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Key Analytical Sections</h2>
+      <ul>
+        <li><strong>Dataset inventory:</strong> total image count, total class count, available splits, and file extensions.</li>
+        <li><strong>Label distribution:</strong> bar plots for image counts per split and per food category.</li>
+        <li><strong>Geometry analysis:</strong> histograms of width, height, aspect ratio, and file size.</li>
+        <li><strong>Sample gallery:</strong> one representative image per category for qualitative inspection.</li>
+        <li><strong>Data quality notes:</strong> interpretation of imbalance, image-size variance, and preprocessing implications.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Expected Findings</h2>
+      <p>The most important expectation from this EDA is confirmation that raw images are not geometrically uniform. That result justifies resizing and center cropping before CNN training. The second major expectation is to detect whether category counts are reasonably balanced; if not, training can become biased toward majority classes.</p>
+      <p>A third expected insight is whether some food classes are visually similar enough to make top-3 accuracy materially more informative than strict top-1 accuracy.</p>
+    </section>
+
+    <section>
+      <h2>Execution Note</h2>
+      <p>To convert this scaffold into a data-backed report, do the following:</p>
+      <ul>
+        <li>Configure Kaggle credentials through <code>KAGGLE_API_TOKEN</code> or <code>~/.kaggle/kaggle.json</code>.</li>
+        <li>Run <code>EDA_Report_Indonesian_Food.ipynb</code> from top to bottom.</li>
+        <li>Export the executed notebook to HTML from VS Code or Jupyter.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
