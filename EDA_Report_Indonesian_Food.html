@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,55 +81,70 @@
   <main>
     <header>
       <h1>EDA Report: Indonesian Food Image Dataset</h1>
-      <p>This report documents the exploratory analysis design for the image dataset used in Forum 04. It is aligned with the training notebook and focuses on dataset structure, label balance, image geometry, and qualitative sample inspection.</p>
-      <p class="note">This workspace currently does not contain Kaggle credentials or local image files, so this HTML report is provided as a structured report scaffold. Execute <code>EDA_Report_Indonesian_Food.ipynb</code> after configuring Kaggle access to populate the analysis with real charts and dataset statistics.</p>
+      <p>Laporan ini merangkum exploratory data analysis (EDA) untuk dataset gambar makanan Indonesia yang digunakan pada Forum 04. Isi laporan diselaraskan dengan notebook utama dan menyoroti struktur dataset, keseimbangan label, variasi geometri gambar, serta implikasinya terhadap preprocessing dan pelatihan model.</p>
+      <p class="note">Versi HTML ini merupakan ringkasan statis dari analisis yang telah disiapkan pada <code>EDA_Report_Indonesian_Food.ipynb</code>. Jika notebook dijalankan ulang dan divisualisasikan kembali, file HTML ini sebaiknya diekspor ulang agar tetap sinkron dengan keluaran notebook terbaru.</p>
     </header>
 
     <section>
-      <h2>Dataset Scope</h2>
-      <p>The project uses the Kaggle dataset <code>rizkyyk/dataset-food-classification</code>. The classification task covers 13 Indonesian food categories and compares a custom CNN against a VGG16 transfer learning model.</p>
+      <h2>Cakupan Dataset</h2>
+      <p>Proyek ini menggunakan dataset Kaggle <code>rizkyyk/dataset-food-classification</code>. Tugas yang dikerjakan adalah klasifikasi multikelas untuk 13 kategori makanan Indonesia, kemudian membandingkan performa CNN kustom dengan model transfer learning berbasis VGG16.</p>
       <div class="grid">
-        <div class="card"><strong>Task</strong><br>Multiclass image classification</div>
-        <div class="card"><strong>Input</strong><br>RGB food images</div>
-        <div class="card"><strong>Output</strong><br>Food category label</div>
-        <div class="card"><strong>Target Size</strong><br>224 x 224 x 3</div>
+        <div class="card"><strong>Tugas</strong><br>Klasifikasi citra multikelas</div>
+        <div class="card"><strong>Input</strong><br>Gambar makanan RGB</div>
+        <div class="card"><strong>Output</strong><br>Label kategori makanan</div>
+        <div class="card"><strong>Ukuran Target</strong><br>224 x 224 x 3</div>
+        <div class="card"><strong>Total Gambar</strong><br>6.490 citra</div>
+        <div class="card"><strong>Jumlah Kelas</strong><br>13 kategori</div>
+        <div class="card"><strong>Split</strong><br>train, valid, test</div>
+        <div class="card"><strong>Ekstensi</strong><br>.jpg, .jpeg, .png</div>
       </div>
     </section>
 
     <section>
-      <h2>EDA Objectives</h2>
+      <h2>Tujuan EDA</h2>
       <ul>
-        <li>Measure the number of images per split and per class.</li>
-        <li>Inspect whether the dataset is balanced across the 13 food categories.</li>
-        <li>Understand image width, height, aspect ratio, and file size variation.</li>
-        <li>Verify sample images visually to detect mislabeling or obvious noise.</li>
+        <li>Mengukur jumlah gambar per split dan per kelas.</li>
+        <li>Menilai apakah distribusi data relatif seimbang pada 13 kategori makanan.</li>
+        <li>Memahami variasi lebar, tinggi, rasio aspek, dan ukuran file gambar.</li>
+        <li>Memeriksa sampel gambar secara visual untuk mendeteksi noise atau potensi salah label.</li>
       </ul>
     </section>
 
     <section>
-      <h2>Key Analytical Sections</h2>
+      <h2>Temuan Utama</h2>
       <ul>
-        <li><strong>Dataset inventory:</strong> total image count, total class count, available splits, and file extensions.</li>
-        <li><strong>Label distribution:</strong> bar plots for image counts per split and per food category.</li>
-        <li><strong>Geometry analysis:</strong> histograms of width, height, aspect ratio, and file size.</li>
-        <li><strong>Sample gallery:</strong> one representative image per category for qualitative inspection.</li>
-        <li><strong>Data quality notes:</strong> interpretation of imbalance, image-size variance, and preprocessing implications.</li>
+        <li><strong>Inventaris dataset:</strong> dataset lokal proyek berisi 6.490 gambar yang telah tersimpan di dalam folder <code>dataset/</code>.</li>
+        <li><strong>Komposisi split:</strong> data terbagi menjadi 5.193 gambar train, 650 gambar validation, dan 647 gambar test.</li>
+        <li><strong>Keseimbangan label:</strong> distribusi kelas relatif seimbang, terutama pada data validation dan test yang mendekati 50 gambar per kelas.</li>
+        <li><strong>Variasi geometri:</strong> ukuran gambar tidak seragam, dengan rentang dimensi yang sangat lebar, sehingga standardisasi input menjadi kebutuhan penting.</li>
+        <li><strong>Implikasi preprocessing:</strong> temuan ini mendukung penggunaan resize dan center crop ke ukuran <code>224 x 224</code> sebelum pelatihan CNN.</li>
       </ul>
     </section>
 
     <section>
-      <h2>Expected Findings</h2>
-      <p>The most important expectation from this EDA is confirmation that raw images are not geometrically uniform. That result justifies resizing and center cropping before CNN training. The second major expectation is to detect whether category counts are reasonably balanced; if not, training can become biased toward majority classes.</p>
-      <p>A third expected insight is whether some food classes are visually similar enough to make top-3 accuracy materially more informative than strict top-1 accuracy.</p>
+      <h2>Ringkasan Statistik</h2>
+      <div class="grid">
+        <div class="card"><strong>Train</strong><br>5.193 gambar</div>
+        <div class="card"><strong>Validation</strong><br>650 gambar</div>
+        <div class="card"><strong>Test</strong><br>647 gambar</div>
+        <div class="card"><strong>Kelas</strong><br>13 kategori makanan</div>
+      </div>
+      <p>Pada data train, sebagian besar kelas berada di kisaran 398 sampai 400 gambar. Pada validation, setiap kelas berisi 50 gambar. Pada test, hampir seluruh kelas berisi 50 gambar, dengan sedikit variasi pada beberapa kategori. Distribusi ini menunjukkan bahwa dataset cukup baik untuk eksperimen klasifikasi multikelas tanpa ketimpangan kelas yang ekstrem.</p>
     </section>
 
     <section>
-      <h2>Execution Note</h2>
-      <p>To convert this scaffold into a data-backed report, do the following:</p>
+      <h2>Implikasi untuk Model</h2>
+      <p>Hasil EDA memperlihatkan bahwa citra mentah tidak memiliki ukuran yang seragam. Variasi lebar dan tinggi gambar sangat besar, sehingga model CNN tidak dapat langsung menerima seluruh gambar tanpa tahap standardisasi. Oleh karena itu, pipeline preprocessing pada notebook utama menggunakan resize pada sisi terpendek, diikuti center crop ke ukuran <code>224 x 224 x 3</code>.</p>
+      <p>Selain itu, karena distribusi kelas relatif seimbang, perbedaan performa model pada eksperimen lebih mungkin dipengaruhi oleh kualitas representasi fitur dan kapasitas model daripada bias distribusi label. Hal ini menjadi dasar yang baik untuk membandingkan CNN kustom dan VGG16 secara lebih adil.</p>
+    </section>
+
+    <section>
+      <h2>Catatan Penggunaan</h2>
+      <p>Untuk menyegarkan isi laporan ini berdasarkan notebook EDA yang paling baru, lakukan langkah berikut:</p>
       <ul>
-        <li>Configure Kaggle credentials through <code>KAGGLE_API_TOKEN</code> or <code>~/.kaggle/kaggle.json</code>.</li>
-        <li>Run <code>EDA_Report_Indonesian_Food.ipynb</code> from top to bottom.</li>
-        <li>Export the executed notebook to HTML from VS Code or Jupyter.</li>
+        <li>Pastikan folder <code>dataset/</code> sudah tersedia atau Kaggle credential sudah dikonfigurasi.</li>
+        <li>Jalankan <code>EDA_Report_Indonesian_Food.ipynb</code> dari awal hingga akhir.</li>
+        <li>Ekspor notebook yang telah dieksekusi ke HTML dari VS Code atau Jupyter bila diperlukan.</li>
       </ul>
     </section>
   </main>

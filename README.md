@@ -4,13 +4,15 @@
 **Student ID:** 2702751284  
 **Program:** Master's in Informatics, BINUS Graduate Program
 
-This repository contains the implementation and documentation for Forum 04, which focuses on image classification using Convolutional Neural Networks (CNN) to recognize Indonesian food categories.
+This repository contains the implementation and documentation for Forum 04, a deep learning assignment focused on multiclass Indonesian food image classification using Convolutional Neural Networks (CNN).
 
 ## 1. Project Overview
 
 This project builds an end-to-end deep learning pipeline for multiclass food-image classification. The workflow starts from Kaggle dataset acquisition, continues through folder-based label extraction and image preprocessing, and ends with model training and evaluation on held-out validation and test splits.
 
-The main objective is comparative and methodological: to show how a custom CNN architecture performs against a transfer learning approach based on VGG16 when both are trained on the same Indonesian food dataset.
+The main objective is comparative and methodological: to evaluate how a custom CNN architecture performs against a transfer learning approach based on VGG16 when both models are trained on the same Indonesian food dataset.
+
+The completed experiment in this repository shows that the VGG16-based model outperforms the custom CNN on both validation and test data.
 
 ## 2. Data Source
 
@@ -18,7 +20,7 @@ The image dataset is obtained from Kaggle:
 
 - **Kaggle dataset:** `rizkyyk/dataset-food-classification`
 
-The dataset contains Indonesian food images organized into class folders and dataset splits. The classes used in this project are:
+The dataset contains 13 Indonesian food categories organized into class folders and three splits: training, validation, and test. After local caching, the project uses 6,490 images stored under the repository `dataset/` folder.
 
 | No. | Food Category | Description |
 |---|---|---|
@@ -38,12 +40,12 @@ The dataset contains Indonesian food images organized into class folders and dat
 
 ## 3. Function and Purpose
 
-The notebook is designed to perform the following tasks:
+The notebook is designed to perform the following core functions:
 
 1. Download and cache the Indonesian food dataset locally using KaggleHub.
 2. Convert folder names into model-friendly labels.
 3. Associate each image path with the correct class label.
-4. Perform image-based exploratory data analysis covering class balance and image-size variation.
+4. Perform image-based exploratory data analysis covering class balance, split composition, image geometry, and qualitative sample inspection.
 5. Standardize image sizes to `(224, 224, 3)` for CNN processing.
 6. Train and evaluate two model families:
 
@@ -61,6 +63,13 @@ The expected deliverables of this project are:
 3. **An HTML EDA report** derived from the exploratory analysis.
 4. **Saved Keras model files** for the best CNN and VGG16 variants.
 5. **Training-history plots** showing loss, accuracy, and top-3 accuracy.
+6. **A final model comparison table** summarizing validation and test metrics.
+
+### Quick Access: EDA Report (HTML)
+
+Click here to open the published EDA report directly:
+
+- **EDA Report:** [https://yanlis-lase-ssg7.github.io/2521-deepLearning-forum04/EDA_Report_Indonesian_Food.html](https://yanlis-lase-ssg7.github.io/2521-deepLearning-forum04/EDA_Report_Indonesian_Food.html)
 
 ## 5. Step-by-Step Installation and Usage
 
@@ -91,7 +100,7 @@ python -m venv venv
 $env:KAGGLE_API_TOKEN="YOUR_KAGGLE_API_TOKEN"
 ```
 
-Alternative authentication methods supported by the notebook:
+Alternative authentication methods supported by the notebooks:
 
 - `~/.kaggle/kaggle.json`
 - `~/.kaggle/access_token`
@@ -106,9 +115,11 @@ pip install -r Forum04-requirements.txt
 
 ### 5.6 Run the Main Notebook
 
-Open and execute the following notebook from top to bottom:
+Open and execute:
 
 - `Forum04-indonesian_food_question.ipynb`
+
+For reproducible results, run notebook cells sequentially from top to bottom.
 
 ### 5.7 Run the EDA Notebook
 
@@ -116,7 +127,7 @@ Open and execute:
 
 - `EDA_Report_Indonesian_Food.ipynb`
 
-The notebook will analyze the dataset structure and can be exported to HTML after execution.
+After the notebook is executed, export it to HTML if you want a refreshed static report that matches the latest notebook output.
 
 ## 6. Technical Requirements
 
@@ -132,7 +143,7 @@ The technical stack for this project includes:
 - KaggleHub
 - Jupyter Notebook / VS Code Notebook support
 
-> Note (Windows): the notebook is configured to use CPU mode on native Windows TensorFlow builds to avoid unsupported GPU issues.
+> Note (Windows): TensorFlow in this project is configured to run on CPU mode for native Windows compatibility.
 
 ## 7. Architecture Details
 
@@ -148,7 +159,7 @@ The following table summarizes the two image-classification models used in this 
 
 ## 8. Workflow (How it Works)
 
-The full pipeline is implemented as the following sequence:
+The full pipeline is implemented as a structured sequence:
 
 1. **Authentication and Dataset Retrieval**  
 	Check local `dataset/` cache first and download from Kaggle only when images are missing.
@@ -160,7 +171,7 @@ The full pipeline is implemented as the following sequence:
 	Associate each image path from train, validation, and test folders with the correct category label.
 
 4. **Exploratory Data Analysis**  
-	Inspect label-count distribution and image-size variation to understand class balance and preprocessing needs.
+	Inspect label-count distribution, split composition, and image-size variation to understand class balance and preprocessing needs.
 
 5. **Image Standardization**  
 	Resize the shortest side to 224 pixels and apply center crop to produce a consistent `(224, 224, 3)` tensor.
@@ -168,19 +179,36 @@ The full pipeline is implemented as the following sequence:
 6. **TensorFlow Dataset Construction**  
 	Convert image paths and labels into efficient `tf.data.Dataset` pipelines for model training.
 
-7. **Model Training**  
+7. **Training**  
 	Train both the custom CNN and the VGG16-based model with early stopping, learning-rate reduction, and checkpointing.
 
 8. **Evaluation and Comparison**  
-	Compare training, validation, and test performance using loss, top-1 accuracy, and top-3 accuracy.
+	Compare train, validation, and test performance using loss, top-1 accuracy, and top-3 accuracy.
+
+## 9. Final Results Snapshot
+
+The main notebook currently reports the following final comparison:
+
+| Model | Validation Accuracy | Test Accuracy | Validation Top-3 Accuracy | Test Top-3 Accuracy |
+|---|---:|---:|---:|---:|
+| Custom CNN | 0.792 | 0.776 | 0.940 | 0.918 |
+| VGG16 Transfer Learning | 0.885 | 0.895 | 0.971 | 0.977 |
+
+These results indicate that the VGG16-based transfer learning model is the strongest model in the current experiment.
 
 ## Repository Structure
 
 ```text
 2521-deepLearning-forum04/
 ├── dataset/
-├── EDA_Report_Indonesian_Food.ipynb
+│   ├── train/
+│   ├── valid/
+│   └── test/
+├── keras_model/
+│   ├── indonesian_food_model.keras
+│   └── vgg_indonesian_food_model.keras
 ├── EDA_Report_Indonesian_Food.html
+├── EDA_Report_Indonesian_Food.ipynb
 ├── Forum04-indonesian_food_question.ipynb
 ├── Forum04-requirements.txt
 └── README.md
